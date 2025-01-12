@@ -126,10 +126,48 @@ http://127.0.0.1:8000/swagger/
 
 ## Running Tests
 
+### Unit Tests
+
+The project includes several unit tests for the API endpoints:
+
+- **Test Campaign Creation**: Validates that a new campaign can be successfully created through the API.
+- **Test Campaign Deletion**: Verifies that an existing campaign can be deleted successfully.
+- **Test Campaign Retrieval**: Ensures that campaigns can be retrieved correctly, including validation for non-existent campaigns.
+- **Test Campaign Update**: Ensures that an existing campaign's details can be updated.
+
 To run the automated tests, use the following command:
 
 ```bash
 python manage.py test backend.campaigns --keepdb
+```
+
+### Authentication Tests
+
+These tests validate the JWT authentication mechanism and protected API access:
+
+- **Test Obtaining JWT Token**: Verifies that a user can obtain a JWT token by providing valid credentials (username and password).
+- **Test Accessing a Protected View with Token**: Simulates accessing a protected endpoint using a valid JWT token and ensures that access is granted.
+- **Test Accessing a Protected View without Token**: Simulates accessing a protected endpoint without a token and ensures that the response returns a 401 Unauthorized status, indicating that authentication is required.
+
+To run the automated auth tests, use the following command:
+
+```bash
+python manage.py test backend.campaigns.test_auth --keepdb --verbosity=2
+```
+
+### End-to-End Tests
+
+These tests simulate the full flow of API requests to ensure all operations work together as expected:
+
+- **Test Creating a Campaign**: Simulates creating a new campaign and verifies the response and database state.
+- **Test Deleting a Campaign**: Simulates deleting a campaign and ensures it is correctly removed.
+- **Test Retrieving the Campaign List**: Simulates retrieving all campaigns and verifies the returned data.
+- **Test Updating a Campaign**: Simulates updating a campaign and checks if the changes are reflected.
+
+To run the automated end-2-end tests, use the following command:
+
+```bash
+python manage.py test backend.campaigns.test_end_to_end --keepdb --verbosity=2
 ```
 
 ---

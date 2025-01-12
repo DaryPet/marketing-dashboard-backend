@@ -1,3 +1,4 @@
+from rest_framework.permissions import IsAuthenticated, AllowAny
 from django.shortcuts import render
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
@@ -12,6 +13,14 @@ class CampaignViewSet(viewsets.ModelViewSet):
     queryset = Campaign.objects.all()  # Get all campaigns from the database
     serializer_class = CampaignSerializer  # Use the CampaignSerializer for data conversion
     
+    # Define permissions for each action
+    def get_permissions(self):
+        if self.action in ['list', 'retrieve']:
+        #     # Allow all users to view campaigns (GET requests)
+            return [AllowAny()]
+        # Only authenticated users can manage campaigns (POST, PUT, DELETE)
+        return [IsAuthenticated()]
+
     @swagger_auto_schema(
     operation_summary="List all campaigns",
     operation_description="Retrieve a list of all marketing campaigns, including associated channels.",
