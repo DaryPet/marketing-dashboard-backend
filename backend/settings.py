@@ -27,6 +27,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'backend.campaigns',
+    'drf_yasg',  # Swagger
 ]
 
 MIDDLEWARE = [
@@ -58,17 +59,6 @@ TEMPLATES = [
 ]
 
 WSGI_APPLICATION = 'backend.wsgi.application'
-
-
-# Database
-# https://docs.djangoproject.com/en/5.1/ref/settings/#databases
-
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': BASE_DIR / 'db.sqlite3',
-#     }
-# }
 
 
 # Password validation
@@ -116,19 +106,22 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'postgres', 
+        'NAME': 'postgres',       
         'USER': 'postgres.dxbnmjundlawrwzaqptf', 
         'PASSWORD': 'Serdce55!',  
         'HOST': 'aws-0-eu-central-1.pooler.supabase.com',  
         'PORT': '6543', 
         'OPTIONS': {
-            'options': '-c pool_mode=transaction', 
+            'options': '-c idle_in_transaction_session_timeout=0'
+            # 'options': '-c pool_mode=transaction', 
         }
     }
 }
+
 
 REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': [
         'rest_framework.renderers.JSONRenderer', # ensures that the API responses are rendered as JSON instead of HTML
     ],
 }
+
