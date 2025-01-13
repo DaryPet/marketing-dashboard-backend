@@ -1,16 +1,30 @@
 from django.db import models
 
-# Create Сhannel model that represents an advertising channel.
+# Create Сhannel model that represents an advertising channel.from django.db import models
 class Channel(models.Model):
-     # The name of the advertising channel ( "TV", "Social Media", etc.)
-    name = models.CharField(max_length=100)
-      
-    # The type of the advertising channel ( "broadcast", "digital", "radio")
-    type = models.CharField(max_length=50)
+    # Defining a ChannelType enum with predefined choices
+    class ChannelType(models.TextChoices):
+        TV = 'TV', 'Television'
+        SOCIAL_MEDIA = 'Social Media', 'Social Networks'
+        RADIO = 'Radio', 'Radio'
+        SEARCH_ENGINE = 'Search Engine', 'Search Engines'
+
+    # The 'name' field will be a choice from the predefined list in ChannelType
+    name = models.CharField(
+        max_length=50,  # Limiting the length of the string for the name
+        choices=ChannelType.choices,  # Limiting the choices to the ones defined in ChannelType
+    )
+    
+    # The 'type' field will also be a choice from the predefined list in ChannelType
+    type = models.CharField(
+        max_length=50,
+        choices=ChannelType.choices,  # Limiting the choices to the ones defined in ChannelType
+    )
 
     def __str__(self):
-        # Return a string representation of the Channel object (e.g., "TV (broadcast)")
-        return f"{self.name} ({self.type})"
+        # String representation of the Channel object, displaying the readable type and name
+        return f"{self.get_name_display()} ({self.get_type_display()})"
+
 
 class Campaign(models.Model):
     # Name of the marketing campaign ( "Summer Sale", "Brand Awareness")
