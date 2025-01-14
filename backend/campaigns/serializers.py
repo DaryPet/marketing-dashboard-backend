@@ -60,14 +60,43 @@ class CampaignSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(f"A campaign with the name '{value}' already exists.")
         return value
 
+    # def create(self, validated_data):
+    #     channels_data = validated_data.pop('channels')  # Извлекаем каналы из данных
+    #     campaign = Campaign.objects.create(**validated_data)  # Создаем новую кампанию
 
+    #     for channel_data in channels_data:  # Для каждого канала
+    #     # Ищем канал с таким же именем и типом
+    #         channel, created = Channel.objects.get_or_create(
+    #             name=channel_data['name'], 
+    #             type=channel_data['type']
+    #         )
+        
+    #     # Many-to-Many
+    #         campaign.channels.add(channel)  
+
+    #     return campaign
     def create(self, validated_data):
-        channels_data = validated_data.pop('channels')  # Extract channels from the data
-        campaign = Campaign.objects.create(**validated_data) # Create a new campaign
-        for channel_data in channels_data:   # Create channels and associate them with the campaign
-            channel = Channel.objects.create(**channel_data)
-            campaign.channels.add(channel)   # Add channel to Many-to-Many relationship
-        return campaign
+        # Extracting the 'channels' data from the validated input.
+        channels_data = validated_data.pop('channels')  # Remove 'channels' from validated_data
+
+        # Creating a new Campaign instance using the remaining validated data.
+        campaign = Campaign.objects.create(**validated_data)  # Create a new campaign
+
+        # Loop through the channels data to associate each channel with the new campaign.
+        for channel_data in channels_data:  # For each channel in the 'channels' data
+
+            # Search for an existing channel with the same name and type.
+            # If no such channel exists, create a new one.
+            channel, created = Channel.objects.get_or_create(
+                name=channel_data['name'], 
+                type=channel_data['type']
+            )
+        
+            # Add the found (or created) channel to the campaign's many-to-many relationship.
+            campaign.channels.add(channel)  # Add the channel to the 'channels' many-to-many relationship of the campaign.
+
+        # Return the newly created campaign instance.
+        return campaign  # Return the newly created campaign with associated channels.
 
     def update(self, instance, validated_data):
         print(f"Validated data: {validated_data}") 
