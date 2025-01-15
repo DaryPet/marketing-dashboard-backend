@@ -1,5 +1,3 @@
-# marketing-dashboard-backend
-
 # Marketing Dashboard Backend
 
 This is the backend for the Marketing Dashboard application. It provides a REST API for managing marketing campaigns and advertising channels.
@@ -90,17 +88,7 @@ python manage.py migrate
 
 ---
 
-### 6. Load test data
-
-Load the pre-created test data into the database:
-
-```bash
-python manage.py loaddata backend/campaigns/fixtures/initial_data.json
-```
-
----
-
-### 7. Start the development server
+### 6. Start the development server
 
 ```bash
 python manage.py runserver
@@ -138,7 +126,7 @@ The project includes several unit tests for the API endpoints:
 To run the automated tests, use the following command:
 
 ```bash
-python manage.py test backend.campaigns --keepdb
+python manage.py test backend.campaigns.tests.test_campaign_serializer --keepdb --verbosity=2 or python manage.py test backend.campaigns.tests.unit_tests --keepdb --verbosity=2
 ```
 
 ### Authentication Tests
@@ -152,7 +140,7 @@ These tests validate the JWT authentication mechanism and protected API access:
 To run the automated auth tests, use the following command:
 
 ```bash
-python manage.py test backend.campaigns.test_auth --keepdb --verbosity=2
+python manage.py test backend.campaigns.tests.test_auth --keepdb --verbosity=2
 ```
 
 ### End-to-End Tests
@@ -167,7 +155,7 @@ These tests simulate the full flow of API requests to ensure all operations work
 To run the automated end-2-end tests, use the following command:
 
 ```bash
-python manage.py test backend.campaigns.test_end_to_end --keepdb --verbosity=2
+python manage.py test backend.campaigns.tests.test_end_to_end --keepdb --verbosity=2
 ```
 
 ---
@@ -180,11 +168,11 @@ marketing-dashboard-backend/
 ├── backend/
 │   ├── campaigns/
 │   │   ├── migrations/
-│   │   ├── fixtures/            # Test data (initial_data.json)
 │   │   ├── models.py            # Database models
 │   │   ├── serializers.py       # API serializers
 │   │   ├── views.py             # API views
-│   │   ├── tests.py             # Unit tests
+│   │   ├── test_auth.py         # Auth tests
+│   │   ├── test_end_to_end.py   # End-to-End tests
 │   └── urls.py                  # Project-level URL configuration
 │
 ├── venv/                        # Virtual environment

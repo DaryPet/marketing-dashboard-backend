@@ -60,20 +60,6 @@ class CampaignSerializer(serializers.ModelSerializer):
                 raise serializers.ValidationError(f"A campaign with the name '{value}' already exists.")
         return value
 
-    # def create(self, validated_data):
-    #     channels_data = validated_data.pop('channels')  # Извлекаем каналы из данных
-    #     campaign = Campaign.objects.create(**validated_data)  # Создаем новую кампанию
-
-    #     for channel_data in channels_data:  # Для каждого канала
-    #     # Ищем канал с таким же именем и типом
-    #         channel, created = Channel.objects.get_or_create(
-    #             name=channel_data['name'], 
-    #             type=channel_data['type']
-    #         )
-        
-    #     # Many-to-Many
-    #         campaign.channels.add(channel)  
-
     #     return campaign
     def create(self, validated_data):
         # Extracting the 'channels' data from the validated input.
