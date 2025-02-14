@@ -1,4 +1,5 @@
 from django.db import models
+from django.contrib.auth import get_user_model
 
 # Create Сhannel model that represents an advertising channel.from django.db import models
 class Channel(models.Model):
@@ -42,6 +43,8 @@ class Campaign(models.Model):
     # Amount of the budget that has been spent so far (defaults to 0)
     spent_budget = models.DecimalField(max_digits=10, decimal_places=2, default=0)
     
+    owner = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name="campaigns")
+
     # Many-to-many relationship with Channel model, as one campaign can use many channels
     # and each channel can be used by many campaigns.
     channels = models.ManyToManyField(Channel)

@@ -22,7 +22,7 @@ class CampaignSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Campaign
-        fields = ['id', 'name', 'start_date', 'end_date', 'total_budget', 'spent_budget', 'channels']
+        fields = ['id', 'name', 'start_date', 'end_date', 'total_budget', 'spent_budget', 'channels', 'owner_id']
 
     def validate_total_budget(self, value):
         try:

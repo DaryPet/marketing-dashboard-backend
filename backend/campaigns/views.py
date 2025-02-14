@@ -3,6 +3,7 @@ from django.shortcuts import render
 from drf_yasg.utils import swagger_auto_schema
 from drf_yasg import openapi
 from rest_framework.response import Response
+from rest_framework.exceptions import PermissionDenied
 
 from rest_framework import viewsets
 from .models import Campaign
@@ -20,6 +21,23 @@ class CampaignViewSet(viewsets.ModelViewSet):
             return [AllowAny()]
         # Only authenticated users can manage campaigns (POST, PUT, DELETE)
         return [IsAuthenticated()]
+    
+        
+    def get_queryset(self):
+        """
+        Returns campaigns filtered by owner (current user) for authenticated users,
+        and all campaigns for unauthenticated users (only view, no edit).
+        """
+        if self.request.user.is_authenticated:
+            # If the user is authenticated, return only campaigns owned by the user
+            return Campaign.objects.filter(owner=self.request.user)  # Only campaigns that belong to the current user
+        else:
+            # For unauthenticated users, return all campaigns but with read-only access
+            return Campaign.objects.all() 
+        
+        # Create method
+    def perform_create(self, serializer):
+        serializer.save(owner=self.request.user)
 
     @swagger_auto_schema(
     operation_summary="List all campaigns",
