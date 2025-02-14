@@ -20,6 +20,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'backend.users',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -30,6 +31,7 @@ INSTALLED_APPS = [
     'drf_yasg',  # Swagger
     'rest_framework_simplejwt', #auth
     'corsheaders',
+    # 'backend.users',
 ]
 
 MIDDLEWARE = [
@@ -153,3 +155,5 @@ SIMPLE_JWT = {
 CORS_ALLOWED_ORIGINS = [
     'http://localhost:5173',
 ]
+
+AUTH_USER_MODEL = 'users.CustomUser'
